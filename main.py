@@ -12,18 +12,18 @@ from data.parser import write_instance, write_results, parse_custom, parse_agatz
 #     write_instance(instance)
 
 def run(args):
-    n, alpha, L, seeds = args.nodes, args.alpha, args.range, args.seeds
-    for seed in range(1, seeds + 1):
-        # # L = float("inf")
-        # # alpha = 2
-        # nodes, c, d, pos = ins_gen.run(n, alpha, seed=seed)
-        # instance = Instance(seed, nodes, alpha, L, c, d)
-        # write_instance(instance)
+    n, alpha, L, seed = args.nodes, args.alpha, args.range, args.seed
+    # for seed in range(1, seeds + 1):
+    # # L = float("inf")
+    # # alpha = 2
+    # nodes, c, d, pos = ins_gen.run(n, alpha, seed=seed)
+    # instance = Instance(seed, nodes, alpha, L, c, d)
+    # write_instance(instance)
 
-        file_name = "./data/instances_custom/n{}_{}.json".format(n, seed)
-        instance = parse_custom(file_name, alpha, L)
-        results = solve(instance)
-        write_results(instance, results)
+    file_name = "./data/instances_custom/n{}_{}.json".format(n, seed)
+    instance = parse_custom(file_name, alpha, L)
+    results = solve(instance)
+    write_results(instance, results)
 
 if __name__ == "__main__":
     argparse = ArgumentParser()
@@ -37,7 +37,7 @@ if __name__ == "__main__":
         "-L", "--range", type=int
     )
     argparse.add_argument(
-        "-S", "--seeds", type=int
+        "-s", "--seed", type=int
     )
     args = argparse.parse_args()
     run(args)
