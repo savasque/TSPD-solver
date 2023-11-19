@@ -12,7 +12,7 @@ from data.parser import write_instance, write_results, parse_custom, parse_agatz
 #     write_instance(instance)
 
 def run(args):
-    n, alpha, L, seed = args.nodes, args.alpha, args.range, args.seed
+    n, alpha, L, R, seed = args.nodes, args.alpha, args.range, args.range_proportion, args.seed
     # for seed in range(1, seeds + 1):
     # # L = float("inf")
     # # alpha = 2
@@ -24,8 +24,10 @@ def run(args):
         alpha = 2
     if not L:
         L = float("inf")
+    if not R:
+        R = float("inf")
     file_name = "./data/instances_custom/n{}_{}.json".format(n, seed)
-    instance = parse_custom(file_name, alpha, L)
+    instance = parse_custom(file_name, alpha, L, R)
     results = solve(instance)
     write_results(instance, results)
 
@@ -39,6 +41,9 @@ if __name__ == "__main__":
     )
     argparse.add_argument(
         "-L", "--range", type=int
+    )
+    argparse.add_argument(
+        "-R", "--range_proportion", type=int
     )
     argparse.add_argument(
         "-s", "--seed", type=int

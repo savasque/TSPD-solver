@@ -47,7 +47,7 @@ def parse_poikonen(n):
     #print()
     pass
 
-def parse_custom(file_name, alpha=None, L=None):
+def parse_custom(file_name, alpha=None, L=None, R=None):
     with open(file_name, "r") as file:
         data = json.load(file)
         if data["drone_range"] == "inf": data["drone_range"] = float("inf")
@@ -63,6 +63,7 @@ def parse_custom(file_name, alpha=None, L=None):
             (i, j): truck_travel_time[i, j] / alpha
             for (i, j) in truck_travel_time
         }
+        L = R * max(drone_travel_time.values())
         instance = Instance(data["id"], nodes, alpha, L, truck_costs=truck_travel_time, drone_costs=drone_travel_time)
     
     return instance
