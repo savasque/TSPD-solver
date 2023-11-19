@@ -9,14 +9,14 @@ from classes.node import Node
 
 def parse_agatz(n):
     path = './data/instances_agatz/uniform'
-    files = [join(path, f) for f in listdir(path) if isfile(join(path, f)) and f[:-4].split('-')[-1] == 'n{}'.format(n)]
+    files = [join(path, f) for f in listdir(path) if isfile(join(path, f)) and f[:-4].split('-')[-1] == 'n{}'.format(n) and len(f[:-4].split("-")) == 3]
     instances = list()
     counter = 0
     for f in files:
         counter += 1
         with open(f, 'r') as data:
             data = data.readlines()
-            alpha = round(float(data[1]) / float(data[3]), 1)
+            # alpha = int(float(data[1]) / float(data[3]))
             (depot_x, depot_y, _) = data[7].split(' ')
             depot = Node(1, float(depot_x), float(depot_y))
             nodes = [depot]
@@ -26,9 +26,19 @@ def parse_agatz(n):
                 (x, y, _) = i.split(' ')
                 node = Node(node_id, float(x), float(y))
                 nodes.append(node)
-        instance = Instance(counter, nodes, alpha)
-        instance.compute_travel_times()
-        instances.append(instance)
+            nodes.append(Node(n + 1, depot.x, depot.y))
+
+            truck_travel_time = {
+                (i, j): int(np.sqrt((i.x - j.x) ** 2 + (i.y - j.y) ** 2) * 10) / 10
+                for i in nodes for j in nodes if i != j
+            }
+            drone_travel_time = {
+                (i, j): truck_travel_time[i, j] / 2
+                for (i, j) in truck_travel_time
+            }
+            instance = Instance(counter, nodes, 2, float("inf"), truck_costs=truck_travel_time, drone_costs=drone_travel_time)
+            instances.append(instance)
+
     return instances
 
 def parse_poikonen(n):
@@ -37,7 +47,7 @@ def parse_poikonen(n):
     #print()
     pass
 
-def parse_custom(file_name):
+def parse_custom(file_name, alpha=None, L=None):
     with open(file_name, "r") as file:
         data = json.load(file)
         if data["drone_range"] == "inf": data["drone_range"] = float("inf")
@@ -50,10 +60,10 @@ def parse_custom(file_name):
             for i in nodes for j in nodes if i != j
         }
         drone_travel_time = {
-            (i, j): truck_travel_time[i, j] / data["drone_speed"] 
+            (i, j): truck_travel_time[i, j] / alpha
             for (i, j) in truck_travel_time
         }
-        instance = Instance(data["id"], nodes, data["drone_speed"], data["drone_range"], truck_costs=truck_travel_time, drone_costs=drone_travel_time)
+        instance = Instance(data["id"], nodes, alpha, L, truck_costs=truck_travel_time, drone_costs=drone_travel_time)
     
     return instance
 
@@ -72,10 +82,8 @@ def write_instance(instance):
         }
     }
     
-    with open("./data/instances_custom/n{}_a{}_L{}_{}.json".format(
+    with open("./data/instances_custom/n{}_{}.json".format(
         data["number_of_nodes"],
-        data["drone_speed"],
-        data["drone_range"],
         data["id"]
     ), "w") as file:
         json.dump(data, file)
