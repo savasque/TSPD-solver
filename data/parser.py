@@ -93,7 +93,7 @@ def write_results(instance, results):
     with open("./results/n{}_a{}_L{}_{}.json".format(
         len(instance.nodes) - 1,
         instance.alpha,
-        instance.L,
+        round(instance.L),
         instance.id
     ), "w") as file:
         json.dump(results, file)
