@@ -63,7 +63,7 @@ def parse_custom(file_name, alpha=None, L=None, R=None):
             (i, j): truck_travel_time[i, j] / alpha
             for (i, j) in truck_travel_time
         }
-        L = R * max(drone_travel_time.values())
+        L = R / 100 * max(drone_travel_time.values())
         instance = Instance(data["id"], nodes, alpha, L, truck_costs=truck_travel_time, drone_costs=drone_travel_time)
     
     return instance
