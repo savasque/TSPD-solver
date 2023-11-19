@@ -20,6 +20,10 @@ def run(args):
     # instance = Instance(seed, nodes, alpha, L, c, d)
     # write_instance(instance)
 
+    if not alpha:
+        alpha = 2
+    if not L:
+        L = float("inf")
     file_name = "./data/instances_custom/n{}_{}.json".format(n, seed)
     instance = parse_custom(file_name, alpha, L)
     results = solve(instance)
