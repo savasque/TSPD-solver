@@ -1,5 +1,6 @@
 
 import sys
+from argparse import ArgumentParser
 
 from classes.instance import Instance
 from solver.solver import solve
@@ -10,20 +11,33 @@ from data.parser import write_instance, write_results, parse_custom, parse_agatz
 # for instance in instances:
 #     write_instance(instance)
 
-if len(sys.argv) != 5:
-    sys.exit('Incorrect number of params. Please execute solver as \'python main.py <n> <alpha> <L> <instance_number>\'')
-n, alpha, L, seeds = list(map(int, sys.argv[1:]))
+def run(args):
+    n, alpha, L, seeds = args.nodes, args.alpha, args.range, args.seeds
+    for seed in range(1, seeds + 1):
+        # # L = float("inf")
+        # # alpha = 2
+        # nodes, c, d, pos = ins_gen.run(n, alpha, seed=seed)
+        # instance = Instance(seed, nodes, alpha, L, c, d)
+        # write_instance(instance)
 
-for seed in range(1, seeds + 1):
-    # # L = float("inf")
-    # # alpha = 2
-    # nodes, c, d, pos = ins_gen.run(n, alpha, seed=seed)
-    # instance = Instance(seed, nodes, alpha, L, c, d)
-    # write_instance(instance)
+        file_name = "./data/instances_custom/n{}_{}.json".format(n, seed)
+        instance = parse_custom(file_name, alpha, L)
+        results = solve(instance)
+        write_results(instance, results)
 
-    file_name = "./data/instances_custom/n{}_{}.json".format(n, seed)
-    instance = parse_custom(file_name, alpha, L)
-    instance.L = L
-    results = solve(instance)
-    write_results(instance, results)
-
+if __name__ == "__main__":
+    argparse = ArgumentParser()
+    argparse.add_argument(
+        "-n", "--nodes", type=int
+    )
+    argparse.add_argument(
+        "-a", "--alpha", type=int
+    )
+    argparse.add_argument(
+        "-L", "--range", type=int
+    )
+    argparse.add_argument(
+        "-S", "--seeds", type=int
+    )
+    args = argparse.parse_args()
+    run(args)
