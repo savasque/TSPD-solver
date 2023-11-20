@@ -2,11 +2,12 @@
 import numpy as np
 
 class Instance:
-    def __init__(self, instance_id, nodes, alpha, L, truck_costs=dict(), drone_costs=dict()):
+    def __init__(self, instance_id, nodes, alpha, L, R, truck_costs=dict(), drone_costs=dict()):
         self.id = instance_id
         self.n = len(nodes)
         self.alpha = alpha
         self.L = L
+        self.R = R
         self.nodes = nodes
         self.arcs = [(i, j) for i in nodes for j in nodes if i != j]
         self.operations = [

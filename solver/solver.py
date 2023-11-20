@@ -50,7 +50,11 @@ def solve(instance):
         "objval": master_problem.model.ObjVal, 
         "runtime": master_problem.model.runtime, 
         "mipgap": master_problem.model.MIPGap, 
-        "is_model_optimal": 1 if master_problem.model.status == 2 else 0
+        "is_model_optimal": 1 if master_problem.model.status == 2 else 0,
+        "n": len(instance.nodes) - 1,
+        "alpha": instance.alpha,
+        "L": instance.L,
+        "R": instance.R
     }
 
     return results

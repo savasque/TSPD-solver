@@ -47,7 +47,7 @@ def parse_poikonen(n):
     #print()
     pass
 
-def parse_custom(file_name, alpha=None, L=None, R=None):
+def parse_custom(file_name, alpha, L, R):
     with open(file_name, "r") as file:
         data = json.load(file)
         if data["drone_range"] == "inf": data["drone_range"] = float("inf")
@@ -64,10 +64,9 @@ def parse_custom(file_name, alpha=None, L=None, R=None):
             for (i, j) in truck_travel_time
         }
         L = R / 100 * max(drone_travel_time.values())
-        instance = Instance(data["id"], nodes, alpha, L, truck_costs=truck_travel_time, drone_costs=drone_travel_time)
+        instance = Instance(data["id"], nodes, alpha, L, R, truck_costs=truck_travel_time, drone_costs=drone_travel_time)
     
     return instance
-
 
 def write_instance(instance):
     data = {
@@ -90,10 +89,18 @@ def write_instance(instance):
         json.dump(data, file)
 
 def write_results(instance, results):
-    with open("./results/n{}_a{}_L{}_{}.json".format(
+    file_name = "./results/n{}_a{}_L{}_{}.json".format(
         len(instance.nodes) - 1,
         instance.alpha,
-        round(instance.L),
+        instance.L,
         instance.id
-    ), "w") as file:
+    )
+    if instance.R < float("inf"):
+        file_name = "./results/n{}_a{}_R{}_{}.json".format(
+            len(instance.nodes) - 1,
+            instance.alpha,
+            instance.R,
+            instance.id
+        )
+    with open(file_name, "w") as file:
         json.dump(results, file)

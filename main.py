@@ -28,7 +28,7 @@ def run(args):
         R = float("inf")
     file_name = "./data/instances_custom/n{}_{}.json".format(n, seed)
     instance = parse_custom(file_name, alpha, L, R)
-    results = solve(instance)
+    results = solve(instance) 
     write_results(instance, results)
 
 if __name__ == "__main__":
