@@ -162,3 +162,8 @@ cython_debug/
 # Dirs
 data/instances_poikonen/
 data/instances_agatz/
+results/
+
+# Files
+*.xlsx
+*.xlsx#

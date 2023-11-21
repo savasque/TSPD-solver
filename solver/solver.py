@@ -47,14 +47,15 @@ def solve(instance):
     # plotter.plot(instance, solution.truck_arcs, solution.drone_arcs)
 
     results = {
-        "objval": master_problem.model.ObjVal, 
-        "runtime": master_problem.model.runtime, 
-        "mipgap": master_problem.model.MIPGap, 
-        "is_model_optimal": 1 if master_problem.model.status == 2 else 0,
+        "id": instance.id,
         "n": len(instance.nodes) - 1,
         "alpha": instance.alpha,
         "L": instance.L,
-        "R": instance.R
+        "R": instance.R,
+        "objval": master_problem.model.ObjVal, 
+        "runtime": master_problem.model.runtime, 
+        "mipgap": master_problem.model.MIPGap, 
+        "is_model_optimal": 1 if master_problem.model.status == 2 else 0
     }
 
     return results
