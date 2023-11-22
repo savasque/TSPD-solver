@@ -40,7 +40,7 @@ class Instance:
     
     def compute_travel_times(self):
         self.truck_travel_time = {
-            (i, j): int(np.sqrt((i.x - j.x) ** 2 + (i.y - j.y) ** 2) * 10) / 10
+            (i, j): int(np.sqrt((i.x - j.x) ** 2 + (i.y - j.y) ** 2) * 10)
             for i in self.nodes for j in self.nodes if i != j
         }
         self.drone_travel_time = {

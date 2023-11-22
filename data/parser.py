@@ -29,7 +29,7 @@ def parse_agatz(n):
             nodes.append(Node(n + 1, depot.x, depot.y))
 
             truck_travel_time = {
-                (i, j): int(np.sqrt((i.x - j.x) ** 2 + (i.y - j.y) ** 2) * 10) / 10
+                (i, j): int(np.sqrt((i.x - j.x) ** 2 + (i.y - j.y) ** 2) * 10)
                 for i in nodes for j in nodes if i != j
             }
             drone_travel_time = {
@@ -56,7 +56,7 @@ def parse_custom(file_name, alpha, L, R):
             nodes.append(Node(int(id), pos[0], pos[1]))
         nodes.append(Node(data["number_of_nodes"] + 1, data["depot_location"][0], data["depot_location"][1]))
         truck_travel_time = {
-            (i, j): int(np.sqrt((i.x - j.x) ** 2 + (i.y - j.y) ** 2) * 10) / 10
+            (i, j): int(np.sqrt((i.x - j.x) ** 2 + (i.y - j.y) ** 2) * 10)
             for i in nodes for j in nodes if i != j
         }
         drone_travel_time = {
