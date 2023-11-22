@@ -12,7 +12,7 @@ def solve(instance):
     master_problem_params = {
         'SEC': None,
         'activate_DB': True,
-        'min_visited_nodes': 0,
+        'min_visited_nodes': 2,
         'time_limit': 3600
     }
     subproblem_params = {
@@ -44,7 +44,7 @@ def solve(instance):
     subproblem._solve()
     solution.operations = [e for e in instance.operations if subproblem.variables['o'][e].X > 0.5]
 
-    # plotter.plot(instance, solution.truck_arcs, solution.drone_arcs)
+    plotter.plot(instance, solution.truck_arcs, solution.drone_arcs)
 
     results = {
         "id": instance.id,
