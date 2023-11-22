@@ -80,6 +80,7 @@ class MasterProblem(Model):
         d = self.instance.drone_travel_time
         min_visited_nodes = self.min_visited_nodes
         customer_nodes = [i for i in N if i not in [depot_1, depot_2]]
+        P = self.instance.P
 
         model.params.LazyConstraints = 1
         if self.time_limit:
@@ -108,7 +109,7 @@ class MasterProblem(Model):
         model.addConstrs(x[i, j] <= quicksum(x[i_2, j_2] for (i_2, j_2) in delta_out[depot_1] if i.id <= j_2.id)  
                         for (i, j) in delta_in[depot_2])
         model.addConstr(quicksum(gamma[i] for i in customer_nodes) >= min_visited_nodes)
-        model.addConstr(quicksum(1 - gamma[i] for i in customer_nodes) >= 1)
+        model.addConstrs(gamma[i] == 1 for i in P)
 
         if self.DB:
             l = model.addVars(A, vtype=GRB.BINARY)

@@ -54,7 +54,7 @@ class Callback:
                 x_arcs = recourse['x_arcs']
                 gamma_recourse = recourse['gamma']
                 truck_route = recourse['truck_route']
-                max_drop = sum([gamma_recourse[i] for i in customer_nodes]) - min_visited_nodes
+                max_drop = sum([gamma_recourse[i] for i in customer_nodes]) - 2
 
                 # Shortcuts generation
                 shortcuts = get_shortcuts(truck_route, max_drop)
@@ -77,7 +77,7 @@ class Callback:
                 gamma_recourse = recourse['gamma']
                 theta_recourse = recourse['theta']
                 truck_route = recourse['truck_route']
-                max_drop = sum([gamma_recourse[i] for i in customer_nodes]) - min_visited_nodes
+                max_drop = sum([gamma_recourse[i] for i in customer_nodes]) - 2
                 
                 # Shortcuts generation
                 shortcuts = get_shortcuts(truck_route, max_drop)

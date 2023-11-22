@@ -26,7 +26,11 @@ class Instance:
                 self.depot_1 = node
             if node.id == self.n:
                 self.depot_2 = node
-        self.min_visited_nodes = 0
+        self.min_visited_nodes = 2
+        drone_reachable_nodes = dict()
+        for operation in self.operations:
+            drone_reachable_nodes[operation[1].id] = None
+        self.P = [node for node in self.nodes if node.id not in drone_reachable_nodes] 
 
     def delta_in_S(self, S):
         return [(i, j) for (i, j) in self.arcs if j in S and i not in S]

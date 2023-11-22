@@ -25,7 +25,7 @@ def solve(instance):
         'get_shortcuts': get_shortcuts
     }
     if instance.alpha == 1:
-        master_problem_params["min_visited_nodes"] = (len(instance.nodes) - 1) // 2 + 1
+        master_problem_params["min_visited_nodes"] = ((len(instance.nodes) - 1) // 2 + 1) - 2
 
     master_problem = MasterProblem(instance, master_problem_params)
     subproblem = SubProblem(instance, subproblem_params)
