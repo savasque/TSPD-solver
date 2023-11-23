@@ -12,7 +12,7 @@ def solve(instance):
     master_problem_params = {
         'SEC': None,
         'activate_DB': True,
-        'min_visited_nodes': 2,
+        'min_visited_nodes': 0,
         'time_limit': 3600
     }
     subproblem_params = {
@@ -44,14 +44,14 @@ def solve(instance):
     subproblem._solve()
     solution.operations = [e for e in instance.operations if subproblem.variables['o'][e].X > 0.5]
 
-    plotter.plot(instance, solution.truck_arcs, solution.drone_arcs)
+    # plotter.plot(instance, solution.truck_arcs, solution.drone_arcs)
 
     results = {
         "id": instance.id,
         "n": len(instance.nodes) - 1,
         "alpha": instance.alpha,
-        "L": instance.L,
-        "R": instance.R,
+        "L": instance.L if instance.L < float("inf") else "inf",
+        "R": instance.R if instance.R < float("inf") else "inf",
         "objval": master_problem.model.ObjVal, 
         "runtime": master_problem.model.runtime, 
         "mipgap": master_problem.model.MIPGap, 
